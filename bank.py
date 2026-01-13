@@ -37,6 +37,8 @@ class Account:
 
         if self._balance < amount:
              raise InsufficientBalanceError('Not enough balance')
+        if amount < 0:
+            raise InvalidAmountError('Amount must be positive')
         self._balance -= amount
         self.tra_history.append(f'Withdrawn: ${amount} {datetime.now().strftime("%H:%M:%S")}')
         return True

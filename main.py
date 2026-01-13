@@ -18,7 +18,7 @@ def show_menu():
     print("5. Check balance")
     print("6. View transactions")
     print("7. Check Overdraft Amount")
-    print("8. Exit")
+    print("0. Exit")
 
 
 def create_account(bank):
@@ -113,10 +113,13 @@ def main():
                 account = bank.get_account(acc_num)
                 if not account:
                     raise AccountNotFoundError("Account not found")
-                
-                print(account.display_overdraft())
 
-            elif choice == "8":
+                if not isinstance(account, CheckingAccount):
+                    print("Overdraft is only available for Checking Accounts")
+                else:
+                    print(account.display_overdraft())
+
+            elif choice == "0":
                 print("Exiting program")
                 break
 
