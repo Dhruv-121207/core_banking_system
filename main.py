@@ -44,7 +44,7 @@ def create_account(bank):
 
 
 def main():
-    bank = Bank("My Bank")
+    bank = Bank("Python Bank")
 
     while True:
         show_menu()

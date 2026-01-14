@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class BankError(Exception):
     pass
 
@@ -10,12 +12,9 @@ class InsufficientBalanceError(BankError):
 class InvalidAmountError(BankError):
     pass
 
-
-from datetime import datetime
-
 class Account:
 
-    account_counter = 1085
+    account_counter = 108107
 
     def __init__(self,acc_holder):
 
@@ -30,7 +29,7 @@ class Account:
         if amount < 0:
             raise InvalidAmountError('Amount must be positive')
         self._balance += amount
-        self.tra_history.append(f'Deposited: ${amount} {datetime.now().strftime("%H:%M:%S")}')
+        self.tra_history.append(f'Deposited: ${amount} on {datetime.now().strftime("%d-%m-%Y at %H:%M:%S")}')
         return True
     
     def withdraw(self,amount):
@@ -40,7 +39,7 @@ class Account:
         if amount < 0:
             raise InvalidAmountError('Amount must be positive')
         self._balance -= amount
-        self.tra_history.append(f'Withdrawn: ${amount} {datetime.now().strftime("%H:%M:%S")}')
+        self.tra_history.append(f'Withdrawn: ${amount} on {datetime.now().strftime("%d-%m-%Y at %H:%M:%S")}')
         return True
     
     def check_balance(self):
@@ -87,12 +86,12 @@ class CheckingAccount(Account):
 
         if amount <= self._balance:
             self._balance -= amount
-            self.tra_history.append(f'Witrhdrawed: ${amount} {datetime.now().strftime("%H:%M:%S")}')
+            self.tra_history.append(f'Witrhdrawed: ${amount} on {datetime.now().strftime("%d-%m-%Y at %H:%M:%S")}')
         else:
             overdraft_used = amount - self._balance
             self._balance = 0
             self.overdraft_limit -= overdraft_used
-            self.tra_history.append(f'Withdrawn using overdraft: ${amount} {datetime.now().strftime("%H:%M:%S")}')
+            self.tra_history.append(f'Withdrawn using overdraft: ${amount} on {datetime.now().strftime("%d-%m-%Y at %H:%M:%S")}')
         return True
     
     def display_overdraft(self):
@@ -124,8 +123,7 @@ class Bank:
         sender._balance -= amount
         receiver._balance += amount 
 
-        sender.tra_history.append(f'Transferred ${amount} to {to_acc_num} {datetime.now().strftime("%H:%M:%S")}')
-
-        receiver.tra_history.append(f'Received ${amount} from {from_acc_num} {datetime.now().strftime("%H:%M:%S")}')
+        sender.tra_history.append(f'Transferred: ${amount} to {to_acc_num} on {datetime.now().strftime("%d-%m-%Y at %H:%M:%S")}')
+        receiver.tra_history.append(f'Received: ${amount} from {from_acc_num} on {datetime.now().strftime("%d-%m-%Y at %H:%M:%S")}')
 
         return True
